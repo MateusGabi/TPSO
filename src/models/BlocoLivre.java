@@ -1,5 +1,7 @@
 package models;
 
+import java.util.LinkedList;
+
 /**
  * 
  * @author Mateus Gabi
@@ -43,6 +45,41 @@ public class BlocoLivre implements Bloco {
 		}
 
 		return i - 1;
+	}
+
+	/**
+	 * Recebe uma lista de indices para serem setados como ocupado (não livres)
+	 * 
+	 * @param indicesDosBlocosDeDadosReservados
+	 */
+	public void setIndicesComoOcupados(
+			LinkedList<Integer> indicesDosBlocosDeDadosReservados) {
+
+		for (Integer indice : indicesDosBlocosDeDadosReservados) {
+			indicesLivres[indice] = 1;
+		}
+
+	}
+
+	/**
+	 * Retorna todos os indices livres
+	 * @return
+	 */
+	public LinkedList<Integer> getIndicesLivres() {
+
+		LinkedList<Integer> l = new LinkedList<Integer>();
+
+		for (int i : indicesLivres) {
+
+			/* os campos setados com -1 são livre */
+			if (i < 0) {
+				l.add(i);
+			}
+
+		}
+
+		return l;
+
 	}
 
 }

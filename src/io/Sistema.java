@@ -27,15 +27,13 @@ public class Sistema {
 	 */
 	public void criarArquivo(String narq, int tamarq) {
 
-		/* Verifica se o arquivo já não existe */
-
-		if (!hd.existe(narq)) {
-
-			/* Cria uma entrada no diretório e na lista de blocos livres */
-			
-			hd.adicionarArquivo(narq, tamarq);
-
-		}
+		/*
+		 * Não precisamos verifica se o arquivo já não existe, pois
+		 * hd.adicionarArquivo() já verifica.
+		 * 
+		 * Cria uma entrada no diretório e na lista de blocos livres
+		 */
+		hd.adicionarArquivo(narq, tamarq);
 	}
 
 	/**

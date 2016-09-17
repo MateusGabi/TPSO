@@ -1,6 +1,7 @@
 package models;
 
-import java.awt.font.NumericShaper;
+import java.util.LinkedList;
+import io.Logger;
 
 /**
  * 
@@ -44,7 +45,7 @@ public class Disco {
 	 * @param narq
 	 * @return
 	 */
-	public boolean existe(String narq) {
+	private boolean existe(String narq) {
 		return ((BlocoDiretorio) vetor[0]).existe(narq);
 	}
 
@@ -57,7 +58,13 @@ public class Disco {
 	 */
 	public void adicionarArquivo(String narq, int tamarq) {
 
-		// TODO
+		/* Verifica se arquivo existe */
+		if (this.existe(narq)) {
+
+			Logger.log("Arquivo \"" + narq + "\" já existente");
+
+			return;
+		}
 
 		/*
 		 * Especificação l. A alocação de blocos então realizada via alocação
@@ -67,13 +74,19 @@ public class Disco {
 		 * inserir um bloco de índice.
 		 */
 
-		int indiceDoBlocoIndice;
-		for (indiceDoBlocoIndice = 0; indiceDoBlocoIndice < vetor.length; indiceDoBlocoIndice++) {
-			if (vetor[indiceDoBlocoIndice] == null) {
-				vetor[indiceDoBlocoIndice] = new BlocoIndice(vetor.length - 3);
-				break;
-			}
-		}
+		/* Pegamos a lista de indices disponíveis */
+		LinkedList<Integer> indicesLivres = ((BlocoLivre) vetor[1])
+				.getIndicesLivres();
+
+		int indiceDoBlocoIndice = indicesLivres.get(0);
+
+		/* Criamos um bloco de índice neles */
+		vetor[indiceDoBlocoIndice] = new BlocoIndice(vetor.length - 3, narq);
+		
+		
+		/* Inserimos o arquivo Bloco do Diretório */		
+		((BlocoDiretorio) vetor[0]).adicionarArquivo(narq, tamarq, indiceDoBlocoIndice);
+		
 
 		/*
 		 * Reservar índices nesse array para o meu arquivo. Número máximo de
@@ -93,5 +106,66 @@ public class Disco {
 		 * quantidade de blocos livres
 		 */
 
+		if (getQuantidadeIndicesLivres() < blocosParaSeremReservados) {
+
+			/* Não há espaço */
+
+			Logger.log("Não há espaço em disco para este arquivo.");
+
+			/* Devemos apagar o bloco de índice */
+			vetor[indiceDoBlocoIndice] = null;
+
+			return;
+
+		}
+
+		/* Caso ao contrário, há espaço e devemos reservar espaço para eles */
+
+		LinkedList<Integer> indicesDosBlocosDeDadosReservados;
+		indicesDosBlocosDeDadosReservados = new LinkedList<Integer>();
+
+		/* começamos com i = 1 pois o 0 é o Bloco de índice */
+		for (int i = 1; blocosParaSeremReservados-- > 0; i++) {
+
+			/* Pegamos o termo i dos indicesLivres */
+
+			int indice = indicesLivres.get(i);
+
+			/* Adicionamos na lista de indices reservados */
+			indicesDosBlocosDeDadosReservados.add(indice);
+
+			/* Registramos o log */
+			Logger.log("Bloco " + indice + " reservado ao arquivo \"" + narq
+					+ "\".");
+
+		}
+
+		/* Adicionar ao bloco de índices os índices dos blocos de dados */
+		((BlocoIndice) vetor[indiceDoBlocoIndice])
+				.setIndices(indicesDosBlocosDeDadosReservados);
+
+		/*
+		 * Não podemos esquecer de adicionar o indice onde está o bloco de
+		 * indices deste arquivo. Coloquei aqui para usarmos a mesma lista
+		 * quando fomos marcar estes blocos como ocupados.
+		 */
+		indicesDosBlocosDeDadosReservados.add(indiceDoBlocoIndice);
+
+		/* Remover índices da lista de blocos livres */
+		((BlocoLivre) vetor[1])
+				.setIndicesComoOcupados(indicesDosBlocosDeDadosReservados);
+
+		/* Registramos o log de quantos blocos livres estão disponíveis */
+		Logger.log("Após a adição do arquivo \"" + narq + "\" há "
+				+ getQuantidadeIndicesLivres() + " blocos livres.");
+
+	}
+
+	/**
+	 * 
+	 * @return quantidade de indices livres
+	 */
+	private int getQuantidadeIndicesLivres() {
+		return ((BlocoLivre) vetor[1]).getIndicesLivres().size();
 	}
 }

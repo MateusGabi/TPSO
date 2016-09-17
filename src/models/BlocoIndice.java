@@ -19,12 +19,25 @@ public class BlocoIndice implements Bloco {
 	/* limite de inserções: d - 3. Item k da especificação. */
 	private final int limite;
 
-	/* numero de entradas utilizados */
-	private int utilizados;
+	/* numero de entradas utilizados = mapa.get(this.name).size() */
 
-	BlocoIndice(int limite) {
+	private final String name;
+
+	/**
+	 * 
+	 * @param limite
+	 *            limite de inserções: d - 3. Item k da especificação.
+	 * @param narq
+	 *            nome do arquivo
+	 */
+	BlocoIndice(int limite, String narq) {
 		this.limite = limite;
 		this.mapa = new HashMap<String, LinkedList<Integer>>();
+
+		/* adiciona o arquivo narq com 0 blocos de dados */
+		mapa.put(narq, null);
+
+		this.name = narq;
 	}
 
 	/**
@@ -35,15 +48,43 @@ public class BlocoIndice implements Bloco {
 	 * @return
 	 */
 	int adicionarArquivo(String narq, int indiceDesteBlocoDeIndice) {
+		if (isCheio()) {
+			return -1;
+		}
+		
+		// TODO
+		
 		return 0;
 	}
 
-	int getUtilizados() {
-		return utilizados;
+	/**
+	 * Retorna o número de Indices Utilizados
+	 * 
+	 * @return
+	 */
+	private int getUtilizados() {
+		return mapa.get(this.name).size();
 	}
 
-	boolean isCheio() {
-		return limite == utilizados;
+	/**
+	 * Retorna se o bloco está cheio
+	 * 
+	 * @return
+	 */
+	private boolean isCheio() {
+		return limite == getUtilizados();
+	}
+
+	/**
+	 * Recebe uma lista de índices e seta
+	 * 
+	 * @param indicesDosBlocosDeDadosReservados
+	 */
+	public void setIndices(LinkedList<Integer> indicesDosBlocosDeDadosReservados) {
+
+		/* Adicionamos o novo chave-valor */
+		mapa.put(this.name, indicesDosBlocosDeDadosReservados);
+
 	}
 
 }
