@@ -69,10 +69,10 @@ public class BlocoLivre implements Bloco {
 
 		LinkedList<Integer> l = new LinkedList<Integer>();
 
-		for (int i : indicesLivres) {
+		for (int i = 0; i < indicesLivres.length; i++) {
 
 			/* os campos setados com -1 são livre */
-			if (i < 0) {
+			if (indicesLivres[i] < 0) {
 				l.add(i);
 			}
 

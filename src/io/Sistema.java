@@ -10,8 +10,9 @@ public class Sistema {
 
 	private final Disco hd;
 
-	public Sistema(int numeroDeBlocos, int tamanhoMaximoEmBytes) {
-		super();
+	public Sistema(int numeroDeBlocos, int tamanhoMaximoEmBytes) {		
+		
+		Logger.log("Sistema inicializado");
 		this.hd = new Disco(numeroDeBlocos, tamanhoMaximoEmBytes);
 	}
 

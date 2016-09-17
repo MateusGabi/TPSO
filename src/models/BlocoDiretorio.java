@@ -13,19 +13,15 @@ public class BlocoDiretorio implements Bloco {
 		private int ponteiroDaPosicaoDentroDoArquivo;
 		private final int tamarq;
 
-		
-
 		public Arquivo(char[] nome, int numeroDoBlocoIndice,
 				int ponteiroDaPosicaoDentroDoArquivo, int tamarq) {
-			
+
 			this.nome = nome;
 			this.numeroDoBlocoIndice = numeroDoBlocoIndice;
 			this.ponteiroDaPosicaoDentroDoArquivo = ponteiroDaPosicaoDentroDoArquivo;
 			this.tamarq = tamarq;
-			
+
 		}
-
-
 
 		String getNome() {
 			return new String(nome);
@@ -54,13 +50,17 @@ public class BlocoDiretorio implements Bloco {
 
 		/* Processando String para char */
 		char[] nome = new char[8];
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < narq.length(); i++) {
+			if (i == 8) {
+				break;
+			}
+
 			nome[i] = narq.charAt(i);
 		}
 
 		/* Especificação o */
 		int ponteiroDaPosicaoDentroDoArquivo = 0;
-		
+
 		arquivos[numeroDeArquivos] = new Arquivo(nome, numeroDoBlocoIndice,
 				ponteiroDaPosicaoDentroDoArquivo, tamarq);
 

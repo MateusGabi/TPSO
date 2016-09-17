@@ -22,6 +22,8 @@ public class Disco {
 	 *            b = tamanho de cada bloco em bytes
 	 */
 	public Disco(int numeroDeBlocos, int tamanhoMaximoEmBytes) {
+		Logger.log("Disco inicializado com " + numeroDeBlocos
+				+ " blocos de tamanho " + tamanhoMaximoEmBytes + " bytes.");
 
 		/* d = numeroDeBlocos */
 		/* b = tamanhoMaximoEmBytes */
@@ -32,8 +34,12 @@ public class Disco {
 		/* O primeiro bloco é o bloco de diretório */
 		vetor[0] = new BlocoDiretorio(numeroDeBlocos - 3, tamanhoMaximoEmBytes);
 
+		Logger.log("Bloco 0 é o Bloco do Diretório.");
+
 		/* O segundo bloco é o bloco com uma lista de Blocos Livres */
 		vetor[1] = new BlocoLivre(numeroDeBlocos);
+
+		Logger.log("Bloco 1 armazena referências aos blocos livres.");
 
 		/* do bloco 2 ao d - 1 são blocos de dados ou blocos de índices */
 
@@ -82,11 +88,13 @@ public class Disco {
 
 		/* Criamos um bloco de índice neles */
 		vetor[indiceDoBlocoIndice] = new BlocoIndice(vetor.length - 3, narq);
-		
-		
-		/* Inserimos o arquivo Bloco do Diretório */		
-		((BlocoDiretorio) vetor[0]).adicionarArquivo(narq, tamarq, indiceDoBlocoIndice);
-		
+
+		/* Inserimos o arquivo Bloco do Diretório */
+		((BlocoDiretorio) vetor[0]).adicionarArquivo(narq, tamarq,
+				indiceDoBlocoIndice);
+
+		Logger.log("Bloco " + indiceDoBlocoIndice
+				+ " é o Bloco de índices do arquivo \"" + narq + "\".");
 
 		/*
 		 * Reservar índices nesse array para o meu arquivo. Número máximo de
