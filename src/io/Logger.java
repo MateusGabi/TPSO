@@ -1,5 +1,7 @@
 package io;
 
+import java.util.Date;
+
 /**
  * Um Logger serve para escrever em um arquivo e no terminal os eventos do
  * sistema (Especificação y).
@@ -13,8 +15,10 @@ public class Logger {
 		
 		/* Escrever no arquivo log.txt */
 		
+		/* */
+		
 		/* Imprime mensagem no terminal */
-		System.out.println(mensagem);
+		System.out.println(new Date() +" : "+ mensagem);
 		
 	}
 
