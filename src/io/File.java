@@ -5,19 +5,18 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class File {
-	public void readCmd(File narq){
-		Scanner ler = new Scanner(System.in);
-		System.out.printf("Informe o nome de arquivo texto:\n");
-		String nome = ler.nextLine();
- 
-		System.out.printf("\nConteúdo do arquivo texto:\n");
+	public void readCmd(String narq){
+		String nome = narq;
 		try {
+			/* 
+			 * arq = Variavel que recebe o arquivo a ser lido;
+			 * Enquanto tiver comandos a serem lidos o arquivo vai ser
+			 * lido!
+			 */
 			FileReader arq = new FileReader(nome);
 			BufferedReader lerArq = new BufferedReader(arq);
-			String linha = lerArq.readLine(); 
+			String linha = lerArq.readLine();
 			while (linha != null) {
-				System.out.printf("%s\n", linha);
-				linha = lerArq.readLine(); 
 				// lê da segunda até a última linha
 				String cmd[] = linha.split(" ");
 				if(cmd[1].equalsIgnoreCase("criar")){
@@ -35,10 +34,8 @@ public class File {
 				if(cmd[1].equalsIgnoreCase("le")){
 					// sistema leArquivo(cmd[1], (int)cmd[2], cmd[3]);
 				}
-				
-				
+				linha = lerArq.readLine(); 
 			}
- 
 			arq.close();
 		} catch (IOException e) {
 			System.err.printf("Erro na abertura do arquivo: %s.\n",
