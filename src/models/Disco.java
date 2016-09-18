@@ -46,13 +46,29 @@ public class Disco {
 	}
 
 	/**
+	 * 
+	 * @return diretório
+	 */
+	private BlocoDiretorio getDiretorio() {
+		return (BlocoDiretorio) vetor[0];
+	}
+
+	/**
+	 * 
+	 * @return BlocoLivre
+	 */
+	private BlocoLivre getBlocosLivres() {
+		return (BlocoLivre) vetor[1];
+	}
+
+	/**
 	 * Método que retorna true caso exista arquivo com esse nome
 	 * 
 	 * @param narq
 	 * @return
 	 */
 	private boolean existe(String narq) {
-		return ((BlocoDiretorio) vetor[0]).existe(narq);
+		return getDiretorio().existe(narq);
 	}
 
 	/**
@@ -81,7 +97,7 @@ public class Disco {
 		 */
 
 		/* Pegamos a lista de indices disponíveis */
-		LinkedList<Integer> indicesLivres = ((BlocoLivre) vetor[1])
+		LinkedList<Integer> indicesLivres = this.getBlocosLivres()
 				.getIndicesLivres();
 
 		int indiceDoBlocoIndice = indicesLivres.get(0);
@@ -90,8 +106,7 @@ public class Disco {
 		vetor[indiceDoBlocoIndice] = new BlocoIndice(vetor.length - 3, narq);
 
 		/* Inserimos o arquivo Bloco do Diretório */
-		((BlocoDiretorio) vetor[0]).adicionarArquivo(narq, tamarq,
-				indiceDoBlocoIndice);
+		this.getDiretorio().adicionarArquivo(narq, tamarq, indiceDoBlocoIndice);
 
 		Logger.log("Bloco " + indiceDoBlocoIndice
 				+ " é o Bloco de índices do arquivo \"" + narq + "\".");
@@ -160,8 +175,8 @@ public class Disco {
 		indicesDosBlocosDeDadosReservados.add(indiceDoBlocoIndice);
 
 		/* Remover índices da lista de blocos livres */
-		((BlocoLivre) vetor[1])
-				.setIndicesComoOcupados(indicesDosBlocosDeDadosReservados);
+		this.getBlocosLivres().setIndicesComoOcupados(
+				indicesDosBlocosDeDadosReservados);
 
 		/* Registramos o log de quantos blocos livres estão disponíveis */
 		Logger.log("Após a adição do arquivo \"" + narq + "\" há "
@@ -174,6 +189,6 @@ public class Disco {
 	 * @return quantidade de indices livres
 	 */
 	private int getQuantidadeIndicesLivres() {
-		return ((BlocoLivre) vetor[1]).getIndicesLivres().size();
+		return this.getBlocosLivres().getIndicesLivres().size();
 	}
 }
