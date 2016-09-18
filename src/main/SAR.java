@@ -1,11 +1,13 @@
 package main;
 
 import io.Sistema;
+import io.File;
 
 public class SAR {
 
 	public static void main(String[] args) {
-
+		File arq = new File();
+		arq.readCmd("Config.txt");
 		/* 1 - Crie o sistema passando o número de blocos e o tamanho deles */
 		Sistema sis = new Sistema(50, 100);
 
