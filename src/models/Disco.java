@@ -1,8 +1,6 @@
 package models;
 
-import java.io.Console;
 import java.util.LinkedList;
-
 import io.Logger;
 
 /**
@@ -145,6 +143,8 @@ public class Disco {
 
 		double blocosParaSeremReservados = Math.ceil(tamarq / b);
 
+		int tamanhoDoUltimoBlocoDoArquivo = tamarq % tamanhoDosBlocosDeDados;
+
 		/*
 		 * Agora tenho que verificar se blocosParaSeremReservados é maior que a
 		 * quantidade de blocos livres
@@ -190,11 +190,15 @@ public class Disco {
 		/* Adicionar ao bloco de índices os índices dos blocos de dados */
 		((BlocoIndice) vetor[indiceDoBlocoIndice])
 				.setIndices(indicesDosBlocosDeDadosReservados);
-		
+
 		/* Criar blocos de dados */
 		for (Integer i : indicesDosBlocosDeDadosReservados) {
 			if (i != indiceDoBlocoIndice) {
 				vetor[i] = new BlocoDados(tamanhoDosBlocosDeDados);
+				if (i == indicesDosBlocosDeDadosReservados.getLast()) {
+					vetor[i] = new BlocoDados(tamanhoDoUltimoBlocoDoArquivo);
+					System.out.println("bloco "+ i +" com " + tamanhoDoUltimoBlocoDoArquivo + "Bytes");
+				}
 				((BlocoDados) vetor[i]).setCaracteres("Default", 0);
 			}
 		}
@@ -326,7 +330,8 @@ public class Disco {
 		blocosDados.removeLast();
 
 		for (Integer i : blocosDados) {
-			Logger.log("Dados do Bloco "+ i + ": " + ((BlocoDados) vetor[i]).getCaracteres());
+			Logger.log("Dados do Bloco " + i + ": "
+					+ ((BlocoDados) vetor[i]).getCaracteres());
 		}
 
 	}
