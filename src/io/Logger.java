@@ -1,6 +1,5 @@
 package io;
 
-import java.io.IOException;
 import java.util.Date;
 
 import io.File;
@@ -19,7 +18,7 @@ public class Logger {
 		String log = new Date() + " : " + mensagem;
 		
 		/* Escrever no arquivo log.txt */
-		// new File().writeLog(log);
+		 new File().writeLog(log);
 
 		/* Imprime mensagem no terminal */
 		System.out.println(log);
