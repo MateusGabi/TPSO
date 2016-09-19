@@ -5,7 +5,7 @@ import io.Sistema;
 public class SAR {
 
 	public static void main(String[] args) {
-
+		
 		/* 1 - Crie o sistema passando o número de blocos e o tamanho deles */
 		Sistema sis = new Sistema(50, 100);
 
@@ -13,10 +13,14 @@ public class SAR {
 
 		/* i - Crie um arquivo com nome e tamanho */
 		sis.criarArquivo("Arquivo1", 100);
+		
+		sis.criarArquivo("Memes do Fora Temer", 696);
 
 		/* ii. destroi narq */
 		/* destroi o arquivo de nome "Arquivo1" */
 		sis.destroiArquivo("Arquivo1");
+		sis.criarArquivo("Arquivo1", 101);
+		sis.destroiArquivo("Memes do");
 		
 		/* iii. varre narq */
 		/* imprime o conteúdo completo de "Arquivo1" */

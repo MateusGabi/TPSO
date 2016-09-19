@@ -52,9 +52,11 @@ public class Sistema {
 	 *            nome do arquivo a ser removido
 	 */
 	public void destroiArquivo(String narq) {
-		// TODO
 
-		Logger.log("Função destroi arquivo não implementada.");
+		/*
+		 * Não precisamos verificar se o arquivo existe pois o hd verifica
+		 */
+		hd.destroiArquivo(narq);
 	}
 
 	/**
