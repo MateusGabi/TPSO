@@ -258,7 +258,7 @@ public class Disco {
 
 			memoriaEmUso -= tamanhoDosBlocosDeDados;
 
-			Logger.log("Excluindo dados do bloco " + i);
+			Logger.log("Excluindo dados do bloco " + i +"...");
 		}
 
 		Logger.log("Arquivo \"" + narq + "\" removido. Há "
