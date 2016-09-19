@@ -1,6 +1,7 @@
 package models;
 
 import java.util.LinkedList;
+
 import io.Logger;
 
 /**
@@ -12,27 +13,36 @@ import io.Logger;
 public class Disco {
 
 	private final Bloco[] vetor;
-	private final int tamanhoMaximoEmBytes;
+	private final int tamanhoDosBlocosDeDados;
+	private final int tamanhoMaximoDoDisco;
+	private int memoriaEmUso;
 
 	/**
 	 * 
 	 * @param numeroDeBlocos
 	 *            d = numero de blocos
-	 * @param tamanhoMaximoEmBytes
+	 * @param tamanhoMaximoDosBlocosDeDados
 	 *            b = tamanho de cada bloco em bytes
 	 */
-	public Disco(int numeroDeBlocos, int tamanhoMaximoEmBytes) {
-		Logger.log("Disco inicializado com " + numeroDeBlocos
-				+ " blocos de tamanho " + tamanhoMaximoEmBytes + " bytes.");
+	public Disco(int numeroDeBlocos, int tamanhoMaximoDosBlocosDeDados) {
 
 		/* d = numeroDeBlocos */
 		/* b = tamanhoMaximoEmBytes */
 
 		this.vetor = new Bloco[numeroDeBlocos];
-		this.tamanhoMaximoEmBytes = tamanhoMaximoEmBytes;
+		this.tamanhoDosBlocosDeDados = tamanhoMaximoDosBlocosDeDados;
+
+		this.tamanhoMaximoDoDisco = numeroDeBlocos
+				* tamanhoMaximoDosBlocosDeDados;
+
+		Logger.log("Disco inicializado com " + numeroDeBlocos
+				+ " blocos de tamanho " + tamanhoMaximoDosBlocosDeDados
+				+ " bytes. Tamanho total do disco: " + tamanhoMaximoDoDisco
+				+ " Bytes;");
 
 		/* O primeiro bloco é o bloco de diretório */
-		vetor[0] = new BlocoDiretorio(numeroDeBlocos - 3, tamanhoMaximoEmBytes);
+		vetor[0] = new BlocoDiretorio(numeroDeBlocos - 3,
+				tamanhoMaximoDosBlocosDeDados);
 
 		Logger.log("Bloco 0 é o Bloco do Diretório.");
 
@@ -43,6 +53,14 @@ public class Disco {
 
 		/* do bloco 2 ao d - 1 são blocos de dados ou blocos de índices */
 
+		memoriaEmUso += 2 * tamanhoMaximoDosBlocosDeDados;
+
+		Logger.log("Há " + getMemoriaDisponivel() + " Bytes disponíveis.");
+
+	}
+
+	private int getMemoriaDisponivel() {
+		return tamanhoMaximoDoDisco - memoriaEmUso;
 	}
 
 	/**
@@ -79,6 +97,8 @@ public class Disco {
 	 *            tamanho do arquivo em bytes
 	 */
 	public void adicionarArquivo(String narq, int tamarq) {
+		
+		Logger.log("Criando arquivo \"" + narq + "\"...");
 
 		/* Verifica se arquivo existe */
 		if (this.existe(narq)) {
@@ -120,7 +140,7 @@ public class Disco {
 		 * deve ser o teto de tamarq / b.
 		 */
 
-		double b = (double) tamanhoMaximoEmBytes;
+		double b = (double) tamanhoDosBlocosDeDados;
 
 		double blocosParaSeremReservados = Math.ceil(tamarq / b);
 
@@ -146,6 +166,9 @@ public class Disco {
 
 		LinkedList<Integer> indicesDosBlocosDeDadosReservados;
 		indicesDosBlocosDeDadosReservados = new LinkedList<Integer>();
+
+		memoriaEmUso += ((int) blocosParaSeremReservados + 1)
+				* tamanhoDosBlocosDeDados;
 
 		/* começamos com i = 1 pois o 0 é o Bloco de índice */
 		for (int i = 1; blocosParaSeremReservados-- > 0; i++) {
@@ -180,7 +203,70 @@ public class Disco {
 
 		/* Registramos o log de quantos blocos livres estão disponíveis */
 		Logger.log("Após a adição do arquivo \"" + narq + "\" há "
-				+ getQuantidadeIndicesLivres() + " blocos livres.");
+				+ getQuantidadeIndicesLivres()
+				+ " blocos livres. Memória Disponível: "
+				+ getMemoriaDisponivel() + " Bytes.");
+
+	}
+
+	/**
+	 * Método que remove um arquivo de nome <code>narq</code>
+	 * 
+	 * @param narq
+	 */
+	public void destroiArquivo(String narq) {
+
+		if (!existe(narq)) {
+			/* Caso o arquivo não exista */
+
+			Logger.log("Arquivo \"" + narq + "\" inexistente.");
+
+			return;
+		}
+
+		/*
+		 * Se o arquivo existe temos que setar como nulo:
+		 * 
+		 * - Seus blocos de dados - Seu Bloco de índice
+		 * 
+		 * E adicionar no bloco livre os índices:
+		 * 
+		 * - dos blocos de dados - do bloco de índice
+		 */
+
+		/* Pegando o indice do bloco de indice */
+		int indiceDoBlocoDeIndice = this.getDiretorio()
+				.getIndiceDoBlocoDeIndice(narq);
+
+		LinkedList<Integer> novosIndicesNulos = new LinkedList<Integer>();
+
+		/* inserimos o indice do bloco de indice porque ele também será nulo */
+		novosIndicesNulos.add(indiceDoBlocoDeIndice);
+
+		BlocoIndice bi = (BlocoIndice) vetor[indiceDoBlocoDeIndice];
+
+		/* pegamos todos os indices i dos blocos de dados */
+		for (Integer i : bi.getIndicesDosBlocosDeDados()) {
+
+			/* adicionamos esses indices na lista */
+			novosIndicesNulos.add(i);
+
+			/* tornamos nulos essa posição do array */
+			vetor[i] = null;
+
+			memoriaEmUso -= tamanhoDosBlocosDeDados;
+
+			Logger.log("Removendo os valores do Bloco de Dados " + i);
+		}
+
+		Logger.log("Arquivo \"" + narq + "\" removido. Há "
+				+ getMemoriaDisponivel() + " Bytes disponíveis.");
+
+		/* Removemos o arquivo do diretorio */
+		this.getDiretorio().destroiArquivo(narq);
+
+		/* setamos como indices disponíveis */
+		this.getBlocosLivres().setIndicesComoLivres(novosIndicesNulos);
 
 	}
 

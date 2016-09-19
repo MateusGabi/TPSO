@@ -1,5 +1,7 @@
 package models;
 
+import java.util.LinkedList;
+
 /**
  * 
  * @author Mateus Gabi
@@ -27,15 +29,19 @@ public class BlocoDiretorio implements Bloco {
 			return new String(nome);
 		}
 
+		int getIndiceDoBlocoDeIndice() {
+			return numeroDoBlocoIndice;
+		}
+
 	}
 
-	private final Arquivo[] arquivos;
-	private int numeroDeArquivos;
+	private final LinkedList<Arquivo> arquivos;
+	private final int maximoDeEntradas;
 
 	BlocoDiretorio(int maximoDeEntradas, int tamanhoMaximo) {
 
-		arquivos = new Arquivo[maximoDeEntradas];
-		numeroDeArquivos = 0;
+		arquivos = new LinkedList<BlocoDiretorio.Arquivo>();
+		this.maximoDeEntradas = maximoDeEntradas;
 
 	}
 
@@ -45,8 +51,7 @@ public class BlocoDiretorio implements Bloco {
 	 * @param narq
 	 * @param tamarq
 	 */
-	public void adicionarArquivo(String narq, int tamarq,
-			int numeroDoBlocoIndice) {
+	void adicionarArquivo(String narq, int tamarq, int numeroDoBlocoIndice) {
 
 		/* Processando String para char */
 		char[] nome = new char[8];
@@ -61,10 +66,8 @@ public class BlocoDiretorio implements Bloco {
 		/* Especificação o */
 		int ponteiroDaPosicaoDentroDoArquivo = 0;
 
-		arquivos[numeroDeArquivos] = new Arquivo(nome, numeroDoBlocoIndice,
-				ponteiroDaPosicaoDentroDoArquivo, tamarq);
-
-		numeroDeArquivos++;
+		arquivos.add(new Arquivo(nome, numeroDoBlocoIndice,
+				ponteiroDaPosicaoDentroDoArquivo, tamarq));
 
 	}
 
@@ -76,10 +79,8 @@ public class BlocoDiretorio implements Bloco {
 	 */
 	public boolean existe(String narq) {
 
-		int n = numeroDeArquivos;
-
-		for (int i = 0; i < n; i++) {
-			if (arquivos[i].getNome().equalsIgnoreCase(narq)) {
+		for (Arquivo arquivo : arquivos) {
+			if (arquivo.getNome().equalsIgnoreCase(narq)) {
 				return true;
 			}
 		}
@@ -87,8 +88,30 @@ public class BlocoDiretorio implements Bloco {
 		return false;
 	}
 
-	public int getNumeroDeArquivos() {
-		return numeroDeArquivos;
+	/**
+	 * Retorna -1 caso arquivo não exista ou i > 0
+	 * 
+	 * @param narq
+	 * @return
+	 */
+	public int getIndiceDoBlocoDeIndice(String narq) {
+		for (Arquivo arquivo : arquivos) {
+			if (arquivo.getNome().equalsIgnoreCase(narq)) {
+				return arquivo.getIndiceDoBlocoDeIndice();
+			}
+		}
+
+		return -1;
 	}
 
+	void destroiArquivo(String narq) {
+		int i = 0;
+		for (Arquivo arquivo : arquivos) {
+			if (arquivo.getNome().equalsIgnoreCase(narq)) {
+				arquivos.remove(i);
+				break;
+			}
+			i++;
+		}
+	}
 }

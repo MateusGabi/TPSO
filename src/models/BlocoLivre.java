@@ -60,6 +60,19 @@ public class BlocoLivre implements Bloco {
 		}
 
 	}
+	/**
+	 * Recebe uma lista de indices para serem setados como livres
+	 * 
+	 * @param novosIndicesLivres
+	 */
+	public void setIndicesComoLivres(
+			LinkedList<Integer> novosIndicesLivres) {
+
+		for (Integer indice : novosIndicesLivres) {
+			indicesLivres[indice] = -1;
+		}
+
+	}
 
 	/**
 	 * Retorna todos os indices livres

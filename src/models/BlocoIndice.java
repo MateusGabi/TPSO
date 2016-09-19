@@ -86,5 +86,9 @@ public class BlocoIndice implements Bloco {
 		mapa.put(this.name, indicesDosBlocosDeDadosReservados);
 
 	}
+	
+	LinkedList<Integer> getIndicesDosBlocosDeDados() {
+		return mapa.get(this.name);
+	}
 
 }
