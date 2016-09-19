@@ -2,9 +2,13 @@ package io;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Formatter;
+import java.util.LinkedList;
 
 public class File {
 	private void read(String narq) {
@@ -53,28 +57,42 @@ public class File {
 	private void write(String msg) {
 
 		/*
-		 * TODO Para escrever no arquivo, tem que ler as mensagens já existentes
+		 * Para escrever no arquivo, tem que ler as mensagens já existentes
 		 * e adicionar a nova mensagem a esta lista. Após, tem que escrever
-		 * todas as mensgans de novo
+		 * todas as mensagens novamente.
 		 */
 
-//		try {
-//			FileReader arq = new FileReader("Log.txt");
-//			BufferedReader lerArq = new BufferedReader(arq);
-//			String linha = lerArq.readLine();
-//			while (linha != null) {
-//				linha = lerArq.readLine();
-//			}
-//			if (linha == null) {
-//				BufferedWriter buffWrite = new BufferedWriter(new FileWriter(
-//						"Log.txt"));
-//				linha = msg;
-//				buffWrite.append(linha);
-//				buffWrite.close();
-//			}
-//		} catch (IOException e) {
-//			Logger.log("Erro na abertura do arquivo: %s.\n" + e.getMessage());
-//		}
+		try {
+			FileReader arq = new FileReader("Log.txt");
+			BufferedReader lerArq = new BufferedReader(arq);
+			String linha = lerArq.readLine();
+			LinkedList<String> linhas = new LinkedList<String>();
+			while (linha != null) {
+				linhas.add(linha);
+				linha = lerArq.readLine();
+			}
+			arq.close();
+			linhas.add(msg);
+			FileWriter arqL = new FileWriter("Log.txt");
+			PrintWriter buffWrite = new PrintWriter(new FileWriter(
+					"Log.txt"));
+			for(String s: linhas){
+				buffWrite.println(s);
+			}
+			buffWrite.close();
+			arqL.close();
+			
+			
+		} catch (IOException e) {
+			Logger.log("Erro na abertura do arquivo: \n" + e.getMessage());
+			try {
+				new java.io.File("Log.txt").createNewFile();
+			} catch (IOException e1) {
+				System.out.println("O arquivo não pode ser criado");
+				e1.printStackTrace();
+			}
+			write(msg);
+		}
 
 	}
 
