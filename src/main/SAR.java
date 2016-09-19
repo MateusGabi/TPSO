@@ -1,15 +1,18 @@
 package main;
 
 import io.Sistema;
+import io.File;
 
 public class SAR {
 
 	public static void main(String[] args) {
+
+		new File().readCmd("Config.txt");
 		
-		/* 1 - Crie o sistema passando o número de blocos e o tamanho deles */
+		/* 1 - Crie o sistema passando o nï¿½mero de blocos e o tamanho deles */
 		Sistema sis = new Sistema(50, 100);
 
-		/* Especificações n */
+		/* Especificaï¿½ï¿½es n */
 
 		/* i - Crie um arquivo com nome e tamanho */
 		sis.criarArquivo("Arquivo1", 100);
@@ -23,13 +26,13 @@ public class SAR {
 		sis.destroiArquivo("Memes do");
 		
 		/* iii. varre narq */
-		/* imprime o conteúdo completo de "Arquivo1" */
+		/* imprime o conteï¿½do completo de "Arquivo1" */
 		sis.varreArquivo("Arquivo1");
 		
 		
 		/* iv. escreve narq pos texto: */
 		/*
-		 * Escreve no "Arquivo1" a partir da posição 3 o texto
+		 * Escreve no "Arquivo1" a partir da posiï¿½ï¿½o 3 o texto
 		 * "Oi, eu sou o Goku!"
 		 */
 		sis.escreveArquivo("Arquivo1", 3, "Oi, eu sou o Goku!");
