@@ -224,6 +224,8 @@ public class Disco {
 			return;
 		}
 
+		Logger.log("Removendo \"" + narq + "\"...");
+
 		/*
 		 * Se o arquivo existe temos que setar como nulo:
 		 * 
@@ -256,7 +258,7 @@ public class Disco {
 
 			memoriaEmUso -= tamanhoDosBlocosDeDados;
 
-			Logger.log("Removendo os valores do Bloco de Dados " + i);
+			Logger.log("Excluindo dados do bloco " + i);
 		}
 
 		Logger.log("Arquivo \"" + narq + "\" removido. Há "
