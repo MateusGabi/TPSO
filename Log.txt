@@ -1,0 +1,51 @@
+Mon Sep 19 16:51:59 BRT 2016 : Arquivo de CMD sendo lido
+Mon Sep 19 16:52:00 BRT 2016 : Sistema inicializado
+Mon Sep 19 16:52:00 BRT 2016 : Disco inicializado com 500 blocos de tamanho 10 bytes. Tamanho total do disco: 5000 Bytes;
+Mon Sep 19 16:52:00 BRT 2016 : Bloco 0 é o Bloco do Diretório.
+Mon Sep 19 16:52:00 BRT 2016 : Bloco 1 armazena referências aos blocos livres.
+Mon Sep 19 16:52:00 BRT 2016 : Há 4980 Bytes disponíveis.
+Mon Sep 19 16:52:00 BRT 2016 : Função varre arquivo em implementação.
+Mon Sep 19 16:52:00 BRT 2016 : Arquivo "varre" inexistente.
+Mon Sep 19 16:58:03 BRT 2016 : Arquivo de CMD sendo lido
+Mon Sep 19 16:58:04 BRT 2016 : Sistema inicializado
+Mon Sep 19 16:58:04 BRT 2016 : Disco inicializado com 500 blocos de tamanho 10 bytes. Tamanho total do disco: 5000 Bytes;
+Mon Sep 19 16:58:04 BRT 2016 : Bloco 0 é o Bloco do Diretório.
+Mon Sep 19 16:58:04 BRT 2016 : Bloco 1 armazena referências aos blocos livres.
+Mon Sep 19 16:58:04 BRT 2016 : Há 4980 Bytes disponíveis.
+Mon Sep 19 16:58:04 BRT 2016 : Função varre arquivo em implementação.
+Mon Sep 19 16:58:04 BRT 2016 : Arquivo "Arquivo1" inexistente.
+Mon Sep 19 16:58:04 BRT 2016 : Função escreve arquivo não implementada.
+Mon Sep 19 16:58:04 BRT 2016 : Função varre arquivo em implementação.
+Mon Sep 19 16:58:04 BRT 2016 : Arquivo "Arquivo1" inexistente.
+Mon Sep 19 16:58:04 BRT 2016 : Função ler arquivo não implementada.
+Mon Sep 19 16:58:58 BRT 2016 : Arquivo de CMD sendo lido
+Mon Sep 19 16:58:58 BRT 2016 : Sistema inicializado
+Mon Sep 19 16:58:58 BRT 2016 : Disco inicializado com 500 blocos de tamanho 10 bytes. Tamanho total do disco: 5000 Bytes;
+Mon Sep 19 16:58:58 BRT 2016 : Bloco 0 é o Bloco do Diretório.
+Mon Sep 19 16:58:58 BRT 2016 : Bloco 1 armazena referências aos blocos livres.
+Mon Sep 19 16:58:58 BRT 2016 : Há 4980 Bytes disponíveis.
+Mon Sep 19 16:58:58 BRT 2016 : Função varre arquivo em implementação.
+Mon Sep 19 16:58:58 BRT 2016 : Arquivo "Arquivo1" inexistente.
+Mon Sep 19 16:58:58 BRT 2016 : Função escreve arquivo não implementada.
+Mon Sep 19 16:58:58 BRT 2016 : Função varre arquivo em implementação.
+Mon Sep 19 16:58:58 BRT 2016 : Arquivo "Arquivo1" inexistente.
+Mon Sep 19 16:58:58 BRT 2016 : Função ler arquivo não implementada.
+Mon Sep 19 16:59:38 BRT 2016 : Arquivo de CMD sendo lido
+Mon Sep 19 16:59:38 BRT 2016 : Sistema inicializado
+Mon Sep 19 16:59:38 BRT 2016 : Disco inicializado com 500 blocos de tamanho 10 bytes. Tamanho total do disco: 5000 Bytes;
+Mon Sep 19 16:59:38 BRT 2016 : Bloco 0 é o Bloco do Diretório.
+Mon Sep 19 16:59:38 BRT 2016 : Bloco 1 armazena referências aos blocos livres.
+Mon Sep 19 16:59:38 BRT 2016 : Há 4980 Bytes disponíveis.
+Mon Sep 19 16:59:38 BRT 2016 : Função varre arquivo em implementação.
+Mon Sep 19 16:59:38 BRT 2016 : Arquivo "Arquivo1" inexistente.
+Mon Sep 19 16:59:38 BRT 2016 : Função escreve arquivo não implementada.
+Mon Sep 19 16:59:38 BRT 2016 : Função varre arquivo em implementação.
+Mon Sep 19 16:59:38 BRT 2016 : Arquivo "Arquivo1" inexistente.
+Mon Sep 19 16:59:38 BRT 2016 : Função ler arquivo não implementada.
+Mon Sep 19 17:06:15 BRT 2016 : Arquivo de CMD sendo lido
+Mon Sep 19 17:06:15 BRT 2016 : Erro na abertura do arquivo: Config.txtConfig.txt (O sistema não pode encontrar o arquivo especificado)
+Mon Sep 19 17:06:39 BRT 2016 : Arquivo de CMD sendo lido
+Mon Sep 19 17:06:49 BRT 2016 : Arquivo de CMD sendo lido
+Mon Sep 19 17:07:00 BRT 2016 : Arquivo de CMD sendo lido
+Mon Sep 19 17:08:49 BRT 2016 : Arquivo de CMD sendo lido
+Mon Sep 19 17:08:49 BRT 2016 : Erro: Arquivo de configuração vazio ou nulo

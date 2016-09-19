@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Formatter;
 import java.util.LinkedList;
+import io.Sistema;
 
 public class File {
 	private void read(String narq) {
@@ -24,29 +25,49 @@ public class File {
 			FileReader arq = new FileReader(nome);
 			BufferedReader lerArq = new BufferedReader(arq);
 			String linha = lerArq.readLine();
+			
+			if(linha == null){
+				Logger.log("Erro: Arquivo de configuração vazio ou nulo");
+				return;
+			}
+			
+			String cmd[] = linha.split(" ");
+			Sistema so = new Sistema(Integer.parseInt(cmd[0]), 
+					Integer.parseInt(cmd[1]));
+			linha = lerArq.readLine();
 			while (linha != null) {
-				// lê da segunda até a última linha
-				String cmd[] = linha.split(" ");
-				if (cmd[1].equalsIgnoreCase("criar")) {
-					// sistema criarArquivo(cmd[1], cmd[2]);
+				cmd = linha.split(" ");
+				
+				if (cmd[0].equalsIgnoreCase("criar"))
+					so.criarArquivo(cmd[1], Integer.parseInt(cmd[2]));
+				
+				if (cmd[0].equalsIgnoreCase("destroi"))
+					so.destroiArquivo(cmd[1]);
+				
+				if (cmd[0].equalsIgnoreCase("varre"))
+					so.varreArquivo(cmd[1]);
+				
+				if (cmd[0].equalsIgnoreCase("escreve")){
+					String texto = "";
+					for(int i=3; i < cmd.length; i++)
+						texto += cmd[i] + " ";
+					System.out.println(texto);
+					so.escreveArquivo(cmd[1], Integer.parseInt(cmd[2]), texto);
 				}
-				if (cmd[1].equalsIgnoreCase("destroi")) {
-					// sistema destroiArquivo(cmd[1]);
-				}
-				if (cmd[1].equalsIgnoreCase("varre")) {
-					// sistema varreArquivo(cmd[1]);
-				}
-				if (cmd[1].equalsIgnoreCase("escreve")) {
-					// sistema escreveArquivo(cmd[1], (int)cmd[2], cmd[3]);
-				}
-				if (cmd[1].equalsIgnoreCase("le")) {
-					// sistema leArquivo(cmd[1], (int)cmd[2], cmd[3]);
-				}
+				if (cmd[0].equalsIgnoreCase("le")) 
+					so.leArquivo(cmd[1], Integer.parseInt(cmd[2]), 
+							Integer.parseInt(cmd[3]));
 				linha = lerArq.readLine();
 			}
 			arq.close();
 		} catch (IOException e) {
-			Logger.log("Erro na abertura do arquivo: %s.\n" + e.getMessage());
+			Logger.log("Erro na abertura do arquivo: Config.txt" + e.getMessage());
+			try {
+				new java.io.File("Config.txt").createNewFile();
+			} catch (IOException e1) {
+				System.out.println("O arquivo não pode ser criado");
+				e1.printStackTrace();
+			}		
 		}
 	}
 
@@ -84,7 +105,7 @@ public class File {
 			
 			
 		} catch (IOException e) {
-			Logger.log("Erro na abertura do arquivo: \n" + e.getMessage());
+			Logger.log("Erro na abertura do arquivo: Log.txt" + e.getMessage());
 			try {
 				new java.io.File("Log.txt").createNewFile();
 			} catch (IOException e1) {
