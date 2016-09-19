@@ -51,9 +51,9 @@ public class BlocoIndice implements Bloco {
 		if (isCheio()) {
 			return -1;
 		}
-		
+
 		// TODO
-		
+
 		return 0;
 	}
 
@@ -86,7 +86,13 @@ public class BlocoIndice implements Bloco {
 		mapa.put(this.name, indicesDosBlocosDeDadosReservados);
 
 	}
-	
+
+	/**
+	 * Retorna os indices dos blocos de dados mais o bloco de índice. O índice
+	 * do bloco de índice é o último.
+	 * 
+	 * @return
+	 */
 	LinkedList<Integer> getIndicesDosBlocosDeDados() {
 		return mapa.get(this.name);
 	}

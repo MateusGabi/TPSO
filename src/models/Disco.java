@@ -1,5 +1,6 @@
 package models;
 
+import java.io.Console;
 import java.util.LinkedList;
 
 import io.Logger;
@@ -97,7 +98,7 @@ public class Disco {
 	 *            tamanho do arquivo em bytes
 	 */
 	public void adicionarArquivo(String narq, int tamarq) {
-		
+
 		Logger.log("Criando arquivo \"" + narq + "\"...");
 
 		/* Verifica se arquivo existe */
@@ -189,6 +190,14 @@ public class Disco {
 		/* Adicionar ao bloco de índices os índices dos blocos de dados */
 		((BlocoIndice) vetor[indiceDoBlocoIndice])
 				.setIndices(indicesDosBlocosDeDadosReservados);
+		
+		/* Criar blocos de dados */
+		for (Integer i : indicesDosBlocosDeDadosReservados) {
+			if (i != indiceDoBlocoIndice) {
+				vetor[i] = new BlocoDados(tamanhoDosBlocosDeDados);
+				((BlocoDados) vetor[i]).setCaracteres("Default", 0);
+			}
+		}
 
 		/*
 		 * Não podemos esquecer de adicionar o indice onde está o bloco de
@@ -258,7 +267,7 @@ public class Disco {
 
 			memoriaEmUso -= tamanhoDosBlocosDeDados;
 
-			Logger.log("Excluindo dados do bloco " + i +"...");
+			Logger.log("Excluindo dados do bloco " + i + "...");
 		}
 
 		Logger.log("Arquivo \"" + narq + "\" removido. Há "
@@ -278,5 +287,47 @@ public class Disco {
 	 */
 	private int getQuantidadeIndicesLivres() {
 		return this.getBlocosLivres().getIndicesLivres().size();
+	}
+
+	/**
+	 * Especificação n.iii. <br />
+	 * <br />
+	 * 
+	 * varre o arquivo de nome <code>narq</code> sequencialmente desde o
+	 * primeiro bloco até o último, escrevendo na tela o conteúdo de cada bloco.
+	 * Acessa o diretório para realizar a varredura.
+	 * 
+	 * @param narq
+	 *            nome do arquivo a ser varrido
+	 */
+	public void varreArquivo(String narq) {
+
+		/*
+		 * Para varrer um arquivo devemos: 1 - Saber se existia 2 - Pegar os
+		 * indices dos blocos de dados 3 - Pegar os caracteres
+		 */
+
+		if (!existe(narq)) {
+
+			Logger.log("Arquivo \"" + narq + "\" inexistente.");
+
+			return;
+
+		}
+
+		LinkedList<Integer> blocosDados = ((BlocoIndice) vetor[this
+				.getDiretorio().getIndiceDoBlocoDeIndice(narq)])
+				.getIndicesDosBlocosDeDados();
+
+		/*
+		 * Removemos o último bloco pois ele é o índice do próprio bloco de
+		 * índice
+		 */
+		blocosDados.removeLast();
+
+		for (Integer i : blocosDados) {
+			Logger.log("Dados do Bloco "+ i + ": " + ((BlocoDados) vetor[i]).getCaracteres());
+		}
+
 	}
 }

@@ -15,15 +15,11 @@ public class SAR {
 		/* Especifica��es n */
 
 		/* i - Crie um arquivo com nome e tamanho */
-		sis.criarArquivo("Arquivo1", 100);
-		
-		sis.criarArquivo("Memes do Fora Temer", 696);
+		sis.criarArquivo("Arquivo1", 345);
 
 		/* ii. destroi narq */
 		/* destroi o arquivo de nome "Arquivo1" */
-		sis.destroiArquivo("Arquivo1");
-		sis.criarArquivo("Arquivo1", 101);
-		sis.destroiArquivo("Memes do");
+//		sis.destroiArquivo("Arquivo1");
 		
 		/* iii. varre narq */
 		/* imprime o conte�do completo de "Arquivo1" */

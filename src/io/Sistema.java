@@ -73,7 +73,9 @@ public class Sistema {
 	public void varreArquivo(String narq) {
 		// TODO
 
-		Logger.log("Função varre arquivo não implementada.");
+		Logger.log("Função varre arquivo em implementação.");
+		
+		hd.varreArquivo(narq);
 	}
 
 	/**
