@@ -181,9 +181,10 @@ public class Disco {
 			/* Adicionamos na lista de indices reservados */
 			indicesDosBlocosDeDadosReservados.add(indice);
 
-			/* Registramos o log */
-			Logger.log("Bloco " + indice + " reservado ao arquivo \"" + narq
-					+ "\".");
+			/*
+			 * Registramos o log Logger.log("Bloco " + indice +
+			 * " reservado ao arquivo \"" + narq + "\".");
+			 */
 
 		}
 
@@ -197,8 +198,13 @@ public class Disco {
 				vetor[i] = new BlocoDados(tamanhoDosBlocosDeDados);
 				if (i == indicesDosBlocosDeDadosReservados.getLast()) {
 					vetor[i] = new BlocoDados(tamanhoDoUltimoBlocoDoArquivo);
-					System.out.println("bloco "+ i +" com " + tamanhoDoUltimoBlocoDoArquivo + "Bytes");
+
 				}
+
+				Logger.log("Bloco de dados " + i + " reservado ao arquivo "
+						+ narq + " com tamanho "
+						+ ((BlocoDados) vetor[i]).getTamanho() + " Bytes.");
+
 				((BlocoDados) vetor[i]).setCaracteres("Default", 0);
 			}
 		}
@@ -329,10 +335,15 @@ public class Disco {
 		 */
 		blocosDados.removeLast();
 
+		String texto = "";
+
 		for (Integer i : blocosDados) {
-			Logger.log("Dados do Bloco " + i + ": "
-					+ ((BlocoDados) vetor[i]).getCaracteres());
+
+			texto += ((BlocoDados) vetor[i]).getCaracteres();
 		}
+
+		Logger.log("Arquivo \"" + narq + "\"");
+		Logger.log(texto);
 
 	}
 }

@@ -22,5 +22,9 @@ public class BlocoDados implements Bloco {
 	String getCaracteres() {
 		return new String(caracteres);
 	}
+	
+	int getTamanho() {
+		return caracteres.length;
+	}
 
 }
