@@ -10,7 +10,7 @@ public class SAR {
 		new File().readCmd("Config.txt");
 		
 		/* 1 - Crie o sistema passando o n�mero de blocos e o tamanho deles */
-		Sistema sis = new Sistema(50, 100);
+		Sistema sis = new Sistema(500, 10);
 
 		/* Especifica��es n */
 
