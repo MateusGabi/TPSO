@@ -24,6 +24,8 @@ public class Disco {
 	 *            b = tamanho de cada bloco em bytes
 	 */
 	public Disco(int numeroDeBlocos, int tamanhoMaximoDosBlocosDeDados) {
+		
+		int blocosLidos = 0;
 
 		/* d = numeroDeBlocos */
 		/* b = tamanhoMaximoEmBytes */
@@ -42,11 +44,15 @@ public class Disco {
 		/* O primeiro bloco é o bloco de diretório */
 		vetor[0] = new BlocoDiretorio(numeroDeBlocos - 3,
 				tamanhoMaximoDosBlocosDeDados);
+		
+		blocosLidos++;
 
 		Logger.log("Bloco 0 é o Bloco do Diretório.");
 
 		/* O segundo bloco é o bloco com uma lista de Blocos Livres */
 		vetor[1] = new BlocoLivre(numeroDeBlocos);
+		
+		blocosLidos++;
 
 		Logger.log("Bloco 1 armazena referências aos blocos livres.");
 
@@ -55,6 +61,7 @@ public class Disco {
 		memoriaEmUso += 2 * tamanhoMaximoDosBlocosDeDados;
 
 		Logger.log("Há " + getMemoriaDisponivel() + " Bytes disponíveis.");
+		Logger.log("Para esta execução foram lidos "+ blocosLidos +" blocos.");
 
 	}
 
@@ -96,6 +103,8 @@ public class Disco {
 	 *            tamanho do arquivo em bytes
 	 */
 	public void adicionarArquivo(String narq, int tamarq) {
+		
+		int blocosLidos = 1;
 
 		Logger.log("Criando arquivo \"" + narq + "\"...");
 
@@ -103,7 +112,8 @@ public class Disco {
 		if (this.existe(narq)) {
 
 			Logger.log("Arquivo \"" + narq + "\" já existente");
-
+			Logger.log("Para esta execução foram lidos "+ blocosLidos +" blocos.");
+			
 			return;
 		}
 
@@ -118,17 +128,19 @@ public class Disco {
 		/* Pegamos a lista de indices disponíveis */
 		LinkedList<Integer> indicesLivres = this.getBlocosLivres()
 				.getIndicesLivres();
+		
+		blocosLidos++;
 
 		int indiceDoBlocoIndice = indicesLivres.get(0);
 
 		/* Criamos um bloco de índice neles */
 		vetor[indiceDoBlocoIndice] = new BlocoIndice(vetor.length - 3, narq);
+		blocosLidos++;
+		
 
 		/* Inserimos o arquivo Bloco do Diretório */
 		this.getDiretorio().adicionarArquivo(narq, tamarq, indiceDoBlocoIndice);
-
-		Logger.log("Bloco " + indiceDoBlocoIndice
-				+ " é o Bloco de índices do arquivo \"" + narq + "\".");
+		blocosLidos++;
 
 		/*
 		 * Reservar índices nesse array para o meu arquivo. Número máximo de
@@ -158,10 +170,16 @@ public class Disco {
 
 			/* Devemos apagar o bloco de índice */
 			vetor[indiceDoBlocoIndice] = null;
+			blocosLidos--;
+
+			Logger.log("Para esta execução foram lidos "+ blocosLidos +" blocos.");
 
 			return;
 
 		}
+
+		Logger.log("Bloco " + indiceDoBlocoIndice
+				+ " é o Bloco de índices do arquivo \"" + narq + "\".");
 
 		/* Caso ao contrário, há espaço e devemos reservar espaço para eles */
 
@@ -181,16 +199,14 @@ public class Disco {
 			/* Adicionamos na lista de indices reservados */
 			indicesDosBlocosDeDadosReservados.add(indice);
 
-			/*
-			 * Registramos o log Logger.log("Bloco " + indice +
-			 * " reservado ao arquivo \"" + narq + "\".");
-			 */
 
 		}
 
 		/* Adicionar ao bloco de índices os índices dos blocos de dados */
 		((BlocoIndice) vetor[indiceDoBlocoIndice])
 				.setIndices(indicesDosBlocosDeDadosReservados);
+		
+		blocosLidos++;
 
 		/* Criar blocos de dados */
 		for (Integer i : indicesDosBlocosDeDadosReservados) {
@@ -200,12 +216,14 @@ public class Disco {
 					vetor[i] = new BlocoDados(tamanhoDoUltimoBlocoDoArquivo);
 
 				}
+				
+				blocosLidos++;
 
 				Logger.log("Bloco de dados " + i + " reservado ao arquivo "
 						+ narq + " com tamanho "
 						+ ((BlocoDados) vetor[i]).getTamanho() + " Bytes.");
 
-				((BlocoDados) vetor[i]).setCaracteres("Default", 0);
+				((BlocoDados) vetor[i]).setCaracteres("[Valor Default]", 0);
 			}
 		}
 
@@ -219,12 +237,18 @@ public class Disco {
 		/* Remover índices da lista de blocos livres */
 		this.getBlocosLivres().setIndicesComoOcupados(
 				indicesDosBlocosDeDadosReservados);
+		blocosLidos++;
 
 		/* Registramos o log de quantos blocos livres estão disponíveis */
 		Logger.log("Após a adição do arquivo \"" + narq + "\" há "
 				+ getQuantidadeIndicesLivres()
 				+ " blocos livres. Memória Disponível: "
 				+ getMemoriaDisponivel() + " Bytes.");
+		
+
+		Logger.log("Para esta execução foram lidos "+ blocosLidos +" blocos.");
+		
+		// PAREI BLOCOS LIDOS AQUI
 
 	}
 

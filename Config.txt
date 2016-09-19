@@ -1,0 +1,2 @@
+1024 1000
+criar PereiraFunk 102400
