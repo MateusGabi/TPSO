@@ -1,2 +1,8 @@
-1024 1000
-criar PereiraFunk 102400
+500 10
+criar A 101
+criar B 101
+destroi A
+criar C 102
+varre b
+escreve B 0 Lorem Ipsum nnm neit. Esse texto é do Goku. WOWO. BLABLABLA
+varre b

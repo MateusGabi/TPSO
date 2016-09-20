@@ -71,10 +71,6 @@ public class Sistema {
 	 *            nome do arquivo a ser varrido
 	 */
 	public void varreArquivo(String narq) {
-		// TODO
-
-		Logger.log("Função varre arquivo em implementação.");
-		
 		hd.varreArquivo(narq);
 	}
 
@@ -95,9 +91,7 @@ public class Sistema {
 	 *            texto que será substituido
 	 */
 	public void escreveArquivo(String narq, int pos, String texto) {
-		// TODO
-
-		Logger.log("Função escreve arquivo não implementada.");
+		hd.escreveArquivo(narq, pos, texto);
 	}
 
 	/**

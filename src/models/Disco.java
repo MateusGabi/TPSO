@@ -1,6 +1,8 @@
 package models;
 
 import java.util.LinkedList;
+
+import util.Functions;
 import io.Logger;
 
 /**
@@ -24,7 +26,7 @@ public class Disco {
 	 *            b = tamanho de cada bloco em bytes
 	 */
 	public Disco(int numeroDeBlocos, int tamanhoMaximoDosBlocosDeDados) {
-		
+
 		int blocosLidos = 0;
 
 		/* d = numeroDeBlocos */
@@ -44,14 +46,14 @@ public class Disco {
 		/* O primeiro bloco é o bloco de diretório */
 		vetor[0] = new BlocoDiretorio(numeroDeBlocos - 3,
 				tamanhoMaximoDosBlocosDeDados);
-		
+
 		blocosLidos++;
 
 		Logger.log("Bloco 0 é o Bloco do Diretório.");
 
 		/* O segundo bloco é o bloco com uma lista de Blocos Livres */
 		vetor[1] = new BlocoLivre(numeroDeBlocos);
-		
+
 		blocosLidos++;
 
 		Logger.log("Bloco 1 armazena referências aos blocos livres.");
@@ -61,7 +63,7 @@ public class Disco {
 		memoriaEmUso += 2 * tamanhoMaximoDosBlocosDeDados;
 
 		Logger.log("Há " + getMemoriaDisponivel() + " Bytes disponíveis.");
-		Logger.log("Para esta execução foram lidos "+ blocosLidos +" blocos.");
+		Logger.log("Para esta execução foram lidos " + blocosLidos + " blocos.");
 
 	}
 
@@ -103,7 +105,7 @@ public class Disco {
 	 *            tamanho do arquivo em bytes
 	 */
 	public void adicionarArquivo(String narq, int tamarq) {
-		
+
 		int blocosLidos = 0;
 
 		Logger.log("Criando arquivo \"" + narq + "\"...");
@@ -112,8 +114,9 @@ public class Disco {
 		if (existe(narq)) {
 
 			Logger.log("Arquivo \"" + narq + "\" já existente");
-			Logger.log("Para esta execução foram lidos "+ blocosLidos +" blocos.");
-			
+			Logger.log("Para esta execução foram lidos " + blocosLidos
+					+ " blocos.");
+
 			return;
 		}
 
@@ -128,7 +131,7 @@ public class Disco {
 		/* Pegamos a lista de indices disponíveis */
 		LinkedList<Integer> indicesLivres = this.getBlocosLivres()
 				.getIndicesLivres();
-		
+
 		blocosLidos++;
 
 		int indiceDoBlocoIndice = indicesLivres.get(0);
@@ -136,7 +139,6 @@ public class Disco {
 		/* Criamos um bloco de índice neles */
 		vetor[indiceDoBlocoIndice] = new BlocoIndice(vetor.length - 3, narq);
 		blocosLidos++;
-		
 
 		/* Inserimos o arquivo Bloco do Diretório */
 		this.getDiretorio().adicionarArquivo(narq, tamarq, indiceDoBlocoIndice);
@@ -172,7 +174,8 @@ public class Disco {
 			vetor[indiceDoBlocoIndice] = null;
 			blocosLidos--;
 
-			Logger.log("Para esta execução foram lidos "+ blocosLidos +" blocos.");
+			Logger.log("Para esta execução foram lidos " + blocosLidos
+					+ " blocos.");
 
 			return;
 
@@ -199,13 +202,12 @@ public class Disco {
 			/* Adicionamos na lista de indices reservados */
 			indicesDosBlocosDeDadosReservados.add(indice);
 
-
 		}
 
 		/* Adicionar ao bloco de índices os índices dos blocos de dados */
 		((BlocoIndice) vetor[indiceDoBlocoIndice])
 				.setIndices(indicesDosBlocosDeDadosReservados);
-		
+
 		blocosLidos++;
 
 		/* Criar blocos de dados */
@@ -216,7 +218,7 @@ public class Disco {
 					vetor[i] = new BlocoDados(tamanhoDoUltimoBlocoDoArquivo);
 
 				}
-				
+
 				blocosLidos++;
 
 				Logger.log("Bloco de dados " + i + " reservado ao arquivo "
@@ -244,9 +246,8 @@ public class Disco {
 				+ getQuantidadeIndicesLivres()
 				+ " blocos livres. Memória Disponível: "
 				+ getMemoriaDisponivel() + " Bytes.");
-		
 
-		Logger.log("Para esta execução foram lidos "+ blocosLidos +" blocos.");
+		Logger.log("Para esta execução foram lidos " + blocosLidos + " blocos.");
 
 	}
 
@@ -256,21 +257,22 @@ public class Disco {
 	 * @param narq
 	 */
 	public void destroiArquivo(String narq) {
-		
+
 		int blocosLidos = 0;
 
 		if (!existe(narq)) {
 			/* Caso o arquivo não exista */
-			
+
 			blocosLidos++;
 
 			Logger.log("Arquivo \"" + narq + "\" inexistente.");
 
-			Logger.log("Para esta execução foram lidos "+ blocosLidos +" blocos.");
+			Logger.log("Para esta execução foram lidos " + blocosLidos
+					+ " blocos.");
 
 			return;
 		}
-		
+
 		blocosLidos++;
 
 		Logger.log("Removendo \"" + narq + "\"...");
@@ -288,7 +290,7 @@ public class Disco {
 		/* Pegando o indice do bloco de indice */
 		int indiceDoBlocoDeIndice = this.getDiretorio()
 				.getIndiceDoBlocoDeIndice(narq);
-		
+
 		blocosLidos++;
 
 		LinkedList<Integer> novosIndicesNulos = new LinkedList<Integer>();
@@ -297,7 +299,7 @@ public class Disco {
 		novosIndicesNulos.add(indiceDoBlocoDeIndice);
 
 		BlocoIndice bi = (BlocoIndice) vetor[indiceDoBlocoDeIndice];
-		
+
 		blocosLidos++;
 
 		/* pegamos todos os indices i dos blocos de dados */
@@ -319,15 +321,15 @@ public class Disco {
 
 		/* Removemos o arquivo do diretorio */
 		this.getDiretorio().destroiArquivo(narq);
-		
+
 		blocosLidos++;
 
 		/* setamos como indices disponíveis */
 		this.getBlocosLivres().setIndicesComoLivres(novosIndicesNulos);
-		
+
 		blocosLidos++;
 
-		Logger.log("Para esta execução foram lidos "+ blocosLidos +" blocos.");
+		Logger.log("Para esta execução foram lidos " + blocosLidos + " blocos.");
 
 	}
 
@@ -360,12 +362,13 @@ public class Disco {
 		 */
 
 		if (!existe(narq)) {
-			
+
 			blocosLidos++;
 
 			Logger.log("Arquivo \"" + narq + "\" inexistente.");
 
-			Logger.log("Para esta execução foram lidos "+ blocosLidos +" blocos.");
+			Logger.log("Para esta execução foram lidos " + blocosLidos
+					+ " blocos.");
 
 			return;
 
@@ -374,28 +377,122 @@ public class Disco {
 		LinkedList<Integer> blocosDados = ((BlocoIndice) vetor[this
 				.getDiretorio().getIndiceDoBlocoDeIndice(narq)])
 				.getIndicesDosBlocosDeDados();
-		
+
 		blocosLidos += 2;
 
-		/*
-		 * Removemos o último bloco pois ele é o índice do próprio bloco de
-		 * índice
-		 */
-		blocosDados.removeLast();
-
 		String texto = "";
+		
+		for (int i = 0; i < blocosDados.size() - 1; i++) {
+			texto += ((BlocoDados) vetor[blocosDados.get(i)]).getCaracteres();
 
-		for (Integer i : blocosDados) {
-
-			texto += ((BlocoDados) vetor[i]).getCaracteres();
-						
 			blocosLidos++;
 		}
 
 		Logger.log("Arquivo \"" + narq + "\"");
 		Logger.log(texto);
 
-		Logger.log("Para esta execução foram lidos "+ blocosLidos +" blocos.");
+		Logger.log("Para esta execução foram lidos " + blocosLidos + " blocos.");
+
+	}
+
+	/**
+	 * Especificação n.iv: <br />
+	 * <br />
+	 * 
+	 * escreve o <code>texto</code> de no máximo 100 caracteres a partir da
+	 * posição <code>pos</code> do arquivo de nome <code>narq</code>. Acessa e
+	 * altera o diretório para realizar a escrita a partir da posição indicada
+	 * sem extrapolar tamarq.
+	 * 
+	 * @param narq
+	 *            nome do arquivo
+	 * @param pos
+	 *            posição do caracter inicial
+	 * @param texto
+	 *            texto que será substituido
+	 */
+	public void escreveArquivo(String narq, int pos, String texto) {
+
+		Logger.log("Inicializando escrita no arquivo \"" + narq + "\"...");
+
+		/*
+		 * Para escrever no arquivo temos que verificar se o arquivo existe. Se
+		 * o arquivo existe, qual bloco está a posição e a partir dessa posição,
+		 * setar os 100 caracteres
+		 */
+
+		int blocosLidos = 0;
+
+		narq = Functions.formatarStringNomeDoArquivo(narq);
+
+		if (!existe(narq)) {
+
+			blocosLidos++;
+
+			Logger.log("Arquivo \"" + narq + "\" inexistente.");
+
+			Logger.log("Para esta execução foram lidos " + blocosLidos
+					+ " blocos.");
+
+			return;
+
+		}
+
+		/* Pegamos os indices dos blocos de dados */
+
+		LinkedList<Integer> blocosDados = ((BlocoIndice) vetor[this
+				.getDiretorio().getIndiceDoBlocoDeIndice(narq)])
+				.getIndicesDosBlocosDeDados();
+
+		/* Precisamos saber em qual bloco está a posição desejada */
+
+		/* se der "2", indica que é o segundo bloco */
+		int numeroBloco = pos / tamanhoDosBlocosDeDados;
+
+		int posicaoDentroDoBloco = pos % tamanhoDosBlocosDeDados;
+
+		BlocoDados bloco = ((BlocoDados) vetor[blocosDados.get(numeroBloco)]);
+
+		blocosLidos += 2;
+
+		int i = 0;
+		int limite = tamanhoDosBlocosDeDados - posicaoDentroDoBloco;
+		while (true) {
+
+			if (limite > texto.length()) {
+				limite = texto.length();
+				System.out.println("Maior");
+			}
+			bloco.setCaracteres(texto.substring(i, limite),
+					posicaoDentroDoBloco);
+			
+			if (limite == texto.length()) {
+				break;
+			}
+
+			blocosLidos++;
+
+			posicaoDentroDoBloco = 0;
+			i = limite;
+			limite = limite + tamanhoDosBlocosDeDados;
+
+			if (limite > 101) {
+				limite = 101;
+			}
+
+			numeroBloco++;
+
+			if (numeroBloco > blocosDados.size() - 2) {
+				break;
+			}
+
+			bloco = ((BlocoDados) vetor[blocosDados.get(numeroBloco)]);
+
+			blocosLidos += 2;
+
+		}
+
+		Logger.log("Para esta execução foram lidos " + blocosLidos + " blocos.");
 
 	}
 }
