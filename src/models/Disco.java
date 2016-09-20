@@ -353,7 +353,7 @@ public class Disco {
 	 *            nome do arquivo a ser varrido
 	 */
 	public void varreArquivo(String narq) {
-		
+
 		int blocosLidos = 0;
 
 		/*
@@ -381,7 +381,7 @@ public class Disco {
 		blocosLidos += 2;
 
 		String texto = "";
-		
+
 		for (int i = 0; i < blocosDados.size() - 1; i++) {
 			texto += ((BlocoDados) vetor[blocosDados.get(i)]).getCaracteres();
 
@@ -464,7 +464,7 @@ public class Disco {
 			}
 			bloco.setCaracteres(texto.substring(i, limite),
 					posicaoDentroDoBloco);
-			
+
 			if (limite == texto.length()) {
 				break;
 			}
@@ -490,6 +490,78 @@ public class Disco {
 			blocosLidos += 2;
 
 		}
+
+		Logger.log("Para esta execução foram lidos " + blocosLidos + " blocos.");
+
+	}
+
+	public void leArquivo(String narq, int pos, int qtd) {
+		int blocosLidos = 0;
+
+		char[] retorno = new char[qtd];
+
+		/*
+		 * Para varrer um arquivo devemos: 1 - Saber se existia 2 - Pegar os
+		 * indices dos blocos de dados 3 - Pegar os caracteres
+		 */
+
+		if (!existe(narq)) {
+
+			blocosLidos++;
+
+			Logger.log("Arquivo \"" + narq + "\" inexistente.");
+
+			Logger.log("Para esta execução foram lidos " + blocosLidos
+					+ " blocos.");
+
+			return;
+
+		}
+
+		LinkedList<Integer> blocosDados = ((BlocoIndice) vetor[this
+				.getDiretorio().getIndiceDoBlocoDeIndice(narq)])
+				.getIndicesDosBlocosDeDados();
+
+		blocosLidos += 2;
+
+		/* Precisamos saber em qual bloco está a posição desejada */
+
+		/* se der "2", indica que é o segundo bloco */
+		int numeroBloco = pos / tamanhoDosBlocosDeDados;
+
+		int posicaoDentroDoBloco = pos % tamanhoDosBlocosDeDados;
+
+		BlocoDados bloco = ((BlocoDados) vetor[blocosDados.get(numeroBloco)]);
+
+		blocosLidos += 2;
+
+		int caracteresLidos = 0;
+
+		for (int i = numeroBloco; i < blocosDados.size() - 1; i++) {
+
+			String texto = ((BlocoDados) vetor[blocosDados.get(i)])
+					.getCaracteres();
+
+			for (int j = posicaoDentroDoBloco; j < texto.length() && caracteresLidos < qtd; j++) {
+				
+				retorno[caracteresLidos] = texto.charAt(j);
+				
+				caracteresLidos++;
+			}
+
+			posicaoDentroDoBloco = 0;
+
+			numeroBloco++;
+
+			if (numeroBloco > blocosDados.size() - 2) {
+				break;
+			}
+
+			bloco = ((BlocoDados) vetor[blocosDados.get(numeroBloco)]);
+
+		}
+		Logger.log("Arquivo \"" + narq + "\" a partir da posição "+ pos);
+		Logger.log(new String(retorno));
 
 		Logger.log("Para esta execução foram lidos " + blocosLidos + " blocos.");
 

@@ -109,10 +109,7 @@ public class Sistema {
 	 *            quantidade de caracteres a serem lidos
 	 */
 	public void leArquivo(String narq, int pos, int qtd) {
-
-		// TODO
-
-		Logger.log("Função ler arquivo não implementada.");
+		hd.leArquivo(narq, pos, qtd);
 	}
 
 }
