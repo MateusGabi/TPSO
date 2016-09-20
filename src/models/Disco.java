@@ -461,7 +461,6 @@ public class Disco {
 
 			if (limite > texto.length()) {
 				limite = texto.length();
-				System.out.println("Maior");
 			}
 			bloco.setCaracteres(texto.substring(i, limite),
 					posicaoDentroDoBloco);
