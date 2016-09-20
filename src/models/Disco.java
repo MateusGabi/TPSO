@@ -18,6 +18,8 @@ public class Disco {
 	private final int tamanhoMaximoDoDisco;
 	private int memoriaEmUso;
 
+	private int leitora;
+
 	/**
 	 * 
 	 * @param numeroDeBlocos
@@ -63,6 +65,9 @@ public class Disco {
 		memoriaEmUso += 2 * tamanhoMaximoDosBlocosDeDados;
 
 		Logger.log("Há " + getMemoriaDisponivel() + " Bytes disponíveis.");
+		leitora = 1;
+		Logger.log("A leitora encontra-se no bloco " + leitora);
+
 		Logger.log("Para esta execução foram lidos " + blocosLidos + " blocos.");
 
 	}
@@ -225,6 +230,8 @@ public class Disco {
 						+ narq + " com tamanho "
 						+ ((BlocoDados) vetor[i]).getTamanho() + " Bytes.");
 
+				leitora = i;
+
 				((BlocoDados) vetor[i]).setCaracteres("[Valor Default]", 0);
 			}
 		}
@@ -247,6 +254,7 @@ public class Disco {
 				+ " blocos livres. Memória Disponível: "
 				+ getMemoriaDisponivel() + " Bytes.");
 
+		Logger.log("A cabeça de leitura encontra-se no bloco " + leitora);
 		Logger.log("Para esta execução foram lidos " + blocosLidos + " blocos.");
 
 	}
@@ -311,6 +319,8 @@ public class Disco {
 			/* tornamos nulos essa posição do array */
 			vetor[i] = null;
 
+			leitora = i;
+
 			memoriaEmUso -= tamanhoDosBlocosDeDados;
 
 			Logger.log("Excluindo dados do bloco " + i + "...");
@@ -328,6 +338,7 @@ public class Disco {
 		this.getBlocosLivres().setIndicesComoLivres(novosIndicesNulos);
 
 		blocosLidos++;
+		Logger.log("A cabeça de leitura encontra-se no bloco " + leitora);
 
 		Logger.log("Para esta execução foram lidos " + blocosLidos + " blocos.");
 
@@ -383,13 +394,15 @@ public class Disco {
 		String texto = "";
 
 		for (int i = 0; i < blocosDados.size() - 1; i++) {
-			texto += ((BlocoDados) vetor[blocosDados.get(i)]).getCaracteres();
-
+			leitora = blocosDados.get(i);
+			texto += ((BlocoDados) vetor[leitora]).getCaracteres();
 			blocosLidos++;
 		}
 
 		Logger.log("Arquivo \"" + narq + "\"");
 		Logger.log(texto);
+
+		Logger.log("A cabeça de leitura encontra-se no bloco " + leitora);
 
 		Logger.log("Para esta execução foram lidos " + blocosLidos + " blocos.");
 
@@ -484,12 +497,16 @@ public class Disco {
 			if (numeroBloco > blocosDados.size() - 2) {
 				break;
 			}
+			
+			leitora = blocosDados.get(numeroBloco);
 
-			bloco = ((BlocoDados) vetor[blocosDados.get(numeroBloco)]);
+			bloco = ((BlocoDados) vetor[leitora]);
+			
 
 			blocosLidos += 2;
 
 		}
+		Logger.log("A cabeça de leitura encontra-se no bloco " + leitora);
 
 		Logger.log("Para esta execução foram lidos " + blocosLidos + " blocos.");
 
@@ -542,10 +559,11 @@ public class Disco {
 			String texto = ((BlocoDados) vetor[blocosDados.get(i)])
 					.getCaracteres();
 
-			for (int j = posicaoDentroDoBloco; j < texto.length() && caracteresLidos < qtd; j++) {
-				
+			for (int j = posicaoDentroDoBloco; j < texto.length()
+					&& caracteresLidos < qtd; j++) {
+
 				retorno[caracteresLidos] = texto.charAt(j);
-				
+
 				caracteresLidos++;
 			}
 
@@ -557,11 +575,13 @@ public class Disco {
 				break;
 			}
 
-			bloco = ((BlocoDados) vetor[blocosDados.get(numeroBloco)]);
+			leitora = blocosDados.get(numeroBloco);
+			bloco = ((BlocoDados) vetor[leitora]);
 
 		}
-		Logger.log("Arquivo \"" + narq + "\" a partir da posição "+ pos);
+		Logger.log("Arquivo \"" + narq + "\" a partir da posição " + pos);
 		Logger.log(new String(retorno));
+		Logger.log("A cabeça de leitura encontra-se no bloco " + leitora);
 
 		Logger.log("Para esta execução foram lidos " + blocosLidos + " blocos.");
 
