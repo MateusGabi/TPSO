@@ -1,8 +1,6 @@
 500 10
-criar A 101
-criar B 101
-destroi A
-criar C 102
-varre b
-escreve B 0 Lorem Ipsum nnm neit. Esse texto é do Goku. WOWO. BLABLABLA
-varre b
+cria Arquivo1 345
+varre Arquivo1
+escreve Arquivo1 3 Oi, eu sou o Goku!
+varre Arquivo1
+le Arquivo1 2 100
