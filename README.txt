@@ -18,6 +18,6 @@ inteiro)>
 na primeira linha é feita a configuração do disco e em cada linha subsequente poderá
 ser escrita somente 1 chamada aonde a separação de cada argumento deve ser feita por
 espaço.
-6 - Compilar o arquivo SAR.java e executa-lo
+6 - Compilar o arquivo SAR.java da pasta main que está na raiz e executa-lo
 7 - As ocorrências do sistema podem ser vistas com facilidade do arquivo Log.txt após
 a execução do programa.
