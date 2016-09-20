@@ -14,8 +14,8 @@ public class BlocoDados implements Bloco {
 	}
 	
 	void setCaracteres(String s, int pos){
-		for (int i = pos; i < caracteres.length && i < s.length(); i++) {
-			caracteres[i] = s.charAt(i);
+		for (int i = pos, j = 0; i < caracteres.length && j < s.length(); i++, j++) {
+			caracteres[i] = s.charAt(j);
 		}
 	}
 

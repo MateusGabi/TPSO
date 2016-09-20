@@ -38,7 +38,7 @@ public class File {
 			while (linha != null) {
 				cmd = linha.split(" ");
 
-				if (cmd[0].equalsIgnoreCase("criar"))
+				if (cmd[0].equalsIgnoreCase("cria"))
 					so.criarArquivo(cmd[1], Integer.parseInt(cmd[2]));
 
 				if (cmd[0].equalsIgnoreCase("destroi"))
