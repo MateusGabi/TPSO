@@ -104,12 +104,12 @@ public class Disco {
 	 */
 	public void adicionarArquivo(String narq, int tamarq) {
 		
-		int blocosLidos = 1;
+		int blocosLidos = 0;
 
 		Logger.log("Criando arquivo \"" + narq + "\"...");
 
 		/* Verifica se arquivo existe */
-		if (this.existe(narq)) {
+		if (existe(narq)) {
 
 			Logger.log("Arquivo \"" + narq + "\" já existente");
 			Logger.log("Para esta execução foram lidos "+ blocosLidos +" blocos.");
@@ -247,8 +247,6 @@ public class Disco {
 		
 
 		Logger.log("Para esta execução foram lidos "+ blocosLidos +" blocos.");
-		
-		// PAREI BLOCOS LIDOS AQUI
 
 	}
 
@@ -258,14 +256,22 @@ public class Disco {
 	 * @param narq
 	 */
 	public void destroiArquivo(String narq) {
+		
+		int blocosLidos = 0;
 
 		if (!existe(narq)) {
 			/* Caso o arquivo não exista */
+			
+			blocosLidos++;
 
 			Logger.log("Arquivo \"" + narq + "\" inexistente.");
 
+			Logger.log("Para esta execução foram lidos "+ blocosLidos +" blocos.");
+
 			return;
 		}
+		
+		blocosLidos++;
 
 		Logger.log("Removendo \"" + narq + "\"...");
 
@@ -282,6 +288,8 @@ public class Disco {
 		/* Pegando o indice do bloco de indice */
 		int indiceDoBlocoDeIndice = this.getDiretorio()
 				.getIndiceDoBlocoDeIndice(narq);
+		
+		blocosLidos++;
 
 		LinkedList<Integer> novosIndicesNulos = new LinkedList<Integer>();
 
@@ -289,6 +297,8 @@ public class Disco {
 		novosIndicesNulos.add(indiceDoBlocoDeIndice);
 
 		BlocoIndice bi = (BlocoIndice) vetor[indiceDoBlocoDeIndice];
+		
+		blocosLidos++;
 
 		/* pegamos todos os indices i dos blocos de dados */
 		for (Integer i : bi.getIndicesDosBlocosDeDados()) {
@@ -309,9 +319,15 @@ public class Disco {
 
 		/* Removemos o arquivo do diretorio */
 		this.getDiretorio().destroiArquivo(narq);
+		
+		blocosLidos++;
 
 		/* setamos como indices disponíveis */
 		this.getBlocosLivres().setIndicesComoLivres(novosIndicesNulos);
+		
+		blocosLidos++;
+
+		Logger.log("Para esta execução foram lidos "+ blocosLidos +" blocos.");
 
 	}
 
@@ -335,6 +351,8 @@ public class Disco {
 	 *            nome do arquivo a ser varrido
 	 */
 	public void varreArquivo(String narq) {
+		
+		int blocosLidos = 0;
 
 		/*
 		 * Para varrer um arquivo devemos: 1 - Saber se existia 2 - Pegar os
@@ -342,8 +360,12 @@ public class Disco {
 		 */
 
 		if (!existe(narq)) {
+			
+			blocosLidos++;
 
 			Logger.log("Arquivo \"" + narq + "\" inexistente.");
+
+			Logger.log("Para esta execução foram lidos "+ blocosLidos +" blocos.");
 
 			return;
 
@@ -352,6 +374,8 @@ public class Disco {
 		LinkedList<Integer> blocosDados = ((BlocoIndice) vetor[this
 				.getDiretorio().getIndiceDoBlocoDeIndice(narq)])
 				.getIndicesDosBlocosDeDados();
+		
+		blocosLidos += 2;
 
 		/*
 		 * Removemos o último bloco pois ele é o índice do próprio bloco de
@@ -364,10 +388,14 @@ public class Disco {
 		for (Integer i : blocosDados) {
 
 			texto += ((BlocoDados) vetor[i]).getCaracteres();
+						
+			blocosLidos++;
 		}
 
 		Logger.log("Arquivo \"" + narq + "\"");
 		Logger.log(texto);
+
+		Logger.log("Para esta execução foram lidos "+ blocosLidos +" blocos.");
 
 	}
 }

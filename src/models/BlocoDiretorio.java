@@ -2,6 +2,8 @@ package models;
 
 import java.util.LinkedList;
 
+import util.Functions;
+
 /**
  * 
  * @author Mateus Gabi
@@ -10,12 +12,12 @@ import java.util.LinkedList;
 public class BlocoDiretorio implements Bloco {
 
 	private class Arquivo {
-		private char[] nome = new char[8];
+		private String nome;
 		private final int numeroDoBlocoIndice;
 		private int ponteiroDaPosicaoDentroDoArquivo;
 		private final int tamarq;
 
-		public Arquivo(char[] nome, int numeroDoBlocoIndice,
+		public Arquivo(String nome, int numeroDoBlocoIndice,
 				int ponteiroDaPosicaoDentroDoArquivo, int tamarq) {
 
 			this.nome = nome;
@@ -26,7 +28,7 @@ public class BlocoDiretorio implements Bloco {
 		}
 
 		String getNome() {
-			return new String(nome);
+			return nome;
 		}
 
 		int getIndiceDoBlocoDeIndice() {
@@ -53,20 +55,12 @@ public class BlocoDiretorio implements Bloco {
 	 */
 	void adicionarArquivo(String narq, int tamarq, int numeroDoBlocoIndice) {
 
-		/* Processando String para char */
-		char[] nome = new char[8];
-		for (int i = 0; i < narq.length(); i++) {
-			if (i == 8) {
-				break;
-			}
-
-			nome[i] = narq.charAt(i);
-		}
+		narq = Functions.formatarStringNomeDoArquivo(narq);
 
 		/* Especificação o */
 		int ponteiroDaPosicaoDentroDoArquivo = 0;
 
-		arquivos.add(new Arquivo(nome, numeroDoBlocoIndice,
+		arquivos.add(new Arquivo(narq, numeroDoBlocoIndice,
 				ponteiroDaPosicaoDentroDoArquivo, tamarq));
 
 	}
@@ -78,6 +72,8 @@ public class BlocoDiretorio implements Bloco {
 	 * @return
 	 */
 	public boolean existe(String narq) {
+
+		narq = Functions.formatarStringNomeDoArquivo(narq);
 
 		for (Arquivo arquivo : arquivos) {
 			if (arquivo.getNome().equalsIgnoreCase(narq)) {
@@ -95,6 +91,9 @@ public class BlocoDiretorio implements Bloco {
 	 * @return
 	 */
 	public int getIndiceDoBlocoDeIndice(String narq) {
+
+		narq = Functions.formatarStringNomeDoArquivo(narq);
+
 		for (Arquivo arquivo : arquivos) {
 			if (arquivo.getNome().equalsIgnoreCase(narq)) {
 				return arquivo.getIndiceDoBlocoDeIndice();
@@ -104,7 +103,10 @@ public class BlocoDiretorio implements Bloco {
 		return -1;
 	}
 
-	void destroiArquivo(String narq) {
+	void destroiArquivo(String narq) {		
+
+		narq = Functions.formatarStringNomeDoArquivo(narq);
+		
 		int i = 0;
 		for (Arquivo arquivo : arquivos) {
 			if (arquivo.getNome().equalsIgnoreCase(narq)) {
