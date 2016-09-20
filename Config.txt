@@ -1,2 +1,6 @@
-1024 1000
-criar PereiraFunk 102400
+500 10
+cria Arquivo1 345
+varre Arquivo1
+escreve Arquivo1 3 Oi, eu sou o Goku!
+varre Arquivo1
+le Arquivo1 2 100
